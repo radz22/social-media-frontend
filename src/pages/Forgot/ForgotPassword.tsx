@@ -1,8 +1,8 @@
-import Header from "../../components/signin and signup/Header";
+import Header from "../../components/signin-signup-header/Header";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
 import signupbg from "../../assets/signupbg.jpg";
-import { forgotpasswordtype } from "../../types/forgotpasswordtype";
+import { forgotpasswordtype } from "../../types/forgot-password-type";
 const ForgotPassword = () => {
   const { register, handleSubmit } = useForm<forgotpasswordtype>();
   const onSubmit: SubmitHandler<forgotpasswordtype> = (data) => {

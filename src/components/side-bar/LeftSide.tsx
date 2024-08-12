@@ -1,25 +1,27 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
-const Sidebar = () => {
+const LeftSide = () => {
   return (
-    <div className="lg:block h-screen  fixed top-[106px]  left-0 z-30 px-2 w-[30%]">
+    <div className="lg:block h-screen  fixed top-[106px]  left-0 z-30 px-2 lg:w-[30%] xl:w-[20%]">
       <div className="bg-white h-auto p-4 rounded-xl 	">
         <div>
           <h1 className="text-sm text-[#adb5bd] font-semibold">News Feeds</h1>
         </div>
-        <div className="flex items-center mt-5 gap-4">
-          <div className="p-1">
-            <img
-              src="https://scontent.fmnl17-3.fna.fbcdn.net/v/t39.30808-6/453773231_3739405146387963_5511635015299107138_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeES3pA4pjKFbCjin0SWPbSPzz0zBlHZIfrPPTMGUdkh-h1BU27T_WctUPNPM3BvXnYqW0Mew6A4gQrCso5F0EdF&_nc_ohc=R-P5P1wKPScQ7kNvgEDw5xe&_nc_ht=scontent.fmnl17-3.fna&oh=00_AYAQDvo_Mm2ixhSIPaqPhNLtvJyIVL3gEZPu0eERCRZW0A&oe=66BAA952"
-              className="w-[40px] h-[40px] rounded-full "
-            />
+        <Link to="/user/1">
+          <div className="flex items-center mt-5 gap-4">
+            <div className="p-1">
+              <img
+                src="https://scontent.fmnl17-3.fna.fbcdn.net/v/t39.30808-6/453773231_3739405146387963_5511635015299107138_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeES3pA4pjKFbCjin0SWPbSPzz0zBlHZIfrPPTMGUdkh-h1BU27T_WctUPNPM3BvXnYqW0Mew6A4gQrCso5F0EdF&_nc_ohc=R-P5P1wKPScQ7kNvgEDw5xe&_nc_ht=scontent.fmnl17-3.fna&oh=00_AYAQDvo_Mm2ixhSIPaqPhNLtvJyIVL3gEZPu0eERCRZW0A&oe=66BAA952"
+                className="w-[40px] h-[40px] rounded-full "
+              />
+            </div>
+            <div>
+              <p className="text-[16px] font-semibold text-[#888]">
+                Radz Santillan
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="text-[16px] font-semibold text-[#888]">
-              Radz Santillan
-            </p>
-          </div>
-        </div>
+        </Link>
         <div className="flex items-center mt-5 gap-4">
           <div className="bg-[#061b9a] p-3 rounded-full">
             <svg
@@ -144,4 +146,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default LeftSide;

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Header from "../../components/home/Header";
-import Footer from "../../components/homefooter/Footer";
+import Header from "../../components/home-header/Header";
 import RingLoader from "react-spinners/RingLoader";
-import Sidebar from "../../components/sidebar/Sidebar";
-import LeftSidebar from "../../components/sidebar/LeftSidebar";
+import Footer from "../../components/footer/Mobile-Footer";
+import LeftSide from "../../components/side-bar/LeftSide";
+import RightSide from "../../components/side-bar/RightSide";
 const Home = () => {
   const [dataDashBoard, setDataDashBoard] = useState<any[]>([
     {
@@ -86,11 +86,11 @@ const Home = () => {
         <Header />
       </div>
       <div className="lg:w-full lg:flex  lg:gap-2 h-auto ">
-        <div className="w-[30%] max-lg:hidden ">
-          <Sidebar />
+        <div className="lg:w-[30%] max-lg:hidden xl:w-[20%] xl:mr-10 ">
+          <LeftSide />
         </div>
 
-        <div className="pt-[10px] w-full px-7 scroll-smooth h-auto py-20 lg:w-[50%]   lg:px-1 ">
+        <div className="pt-[10px] w-full px-5 scroll-smooth h-auto py-20 lg:w-[50%]   lg:px-1 xl:w-[55%]">
           <div className="mt-24 bg-white h-auto p-4 rounded-xl 	">
             <div className="flex items-center gap-2 ">
               <div className="bg-[#f5f5f5] p-2 rounded-full	 ">
@@ -355,8 +355,8 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="w-[20%] max-lg:hidden    ">
-          <LeftSidebar />
+        <div className="w-[20%] max-lg:hidden">
+          <RightSide />
         </div>
       </div>
       <div className="fixed bottom-0 left-0 w-full   z-50 lg:hidden">

@@ -1,8 +1,9 @@
-import Header from "../../components/signin and signup/Header";
+import Header from "../../components/signin-signup-header/Header";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signuptype } from "../../types/signuptype";
+import { signuptype } from "../../types/sign-up-type";
 import { Link } from "react-router-dom";
 import signupbg from "../../assets/signupbg.jpg";
+import H1 from "../../components/h1/H1";
 const Signup = () => {
   const { register, handleSubmit } = useForm<signuptype>();
   const onSubmit: SubmitHandler<signuptype> = (data) => {
@@ -28,9 +29,9 @@ const Signup = () => {
         <div className="xl:w-[60%] w-full px-7  flex items-center justify-center flex-col mt-10 ">
           <div className="md:w-[400px] sm:w-[350px]">
             <div className="w-full ">
-              <h1 className="text-3xl font-bold leading-tight text-left">
+              <H1 classname="text-3xl font-bold leading-tight text-left">
                 Create <br /> your account
-              </h1>
+              </H1>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8">

@@ -1,11 +1,13 @@
-import Header from "../../components/signin and signup/Header";
+import Header from "../../components/signin-signup-header/Header";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
 import signupbg from "../../assets/signupbg.jpg";
-import { recoveraccounttype } from "../../types/recoveraccounttype";
+import { signuptype } from "../../types/sign-up-type";
+
+import H1 from "../../components/h1/H1";
 const RecoverAccount = () => {
-  const { register, handleSubmit } = useForm<recoveraccounttype>();
-  const onSubmit: SubmitHandler<recoveraccounttype> = (data) => {
+  const { register, handleSubmit } = useForm<signuptype>();
+  const onSubmit: SubmitHandler<signuptype> = (data) => {
     console.log(data);
   };
 
@@ -27,9 +29,9 @@ const RecoverAccount = () => {
         <div className="xl:w-[60%] w-full px-7  flex items-center justify-center flex-col mt-20 ">
           <div className="md:w-[400px] sm:w-[350px]">
             <div className="w-full ">
-              <h1 className="text-3xl font-bold leading-tight text-left">
+              <H1 classname="text-3xl font-bold leading-tight text-left">
                 Recover <br /> your account
-              </h1>
+              </H1>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8">

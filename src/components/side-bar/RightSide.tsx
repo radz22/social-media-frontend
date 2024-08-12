@@ -1,4 +1,4 @@
-const LeftSidebar = () => {
+const RightSide = () => {
   return (
     <div className="lg:block overflow-scroll h-[100vh]   fixed top-[106px]  right-0 z-30 px-2 w-[20%]   mb-10">
       <div className="mb-24">
@@ -227,4 +227,4 @@ const LeftSidebar = () => {
   );
 };
 
-export default LeftSidebar;
+export default RightSide;
