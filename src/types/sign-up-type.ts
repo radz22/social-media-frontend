@@ -1,5 +1,5 @@
 export interface signuptype {
-  name: string;
+  username: string;
   email: string;
   password: string;
   confirmpassword: string;

@@ -2,7 +2,10 @@ import React from "react";
 import LeftSide from "../../components/side-bar/LeftSide";
 import Header from "../../components/home-header/Header";
 import Footer from "../../components/footer/Mobile-Footer";
+import Button from "../../components/button/button";
+import Logout from "../../components/button/logout-button";
 const Setting = () => {
+  const { handleLogout } = Logout();
   return (
     <div className="h-[100%] w-full bg-[#e8f1fa]">
       <div className="fixed top-0 left-0 w-full bg-white  z-50">
@@ -409,7 +412,11 @@ const Setting = () => {
                     </svg>
                   </div>
                   <div>
-                    <h1 className="text-sm	font-semibold">Logout</h1>
+                    <Button
+                      classname="text-sm	font-semibold"
+                      buttonname="Logout"
+                      onButtonClick={handleLogout}
+                    />
                   </div>
                 </div>
                 <div>

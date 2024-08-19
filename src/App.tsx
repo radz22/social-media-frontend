@@ -8,15 +8,14 @@ import Home from "./pages/home/Home";
 import { Fragment } from "react/jsx-runtime";
 import Setting from "./pages/setting/Setting";
 import User from "./pages/user/User";
+import cookies from "./utils/cookies/cookies";
 function App() {
+  const login = cookies.get("login");
   return (
     <Fragment>
-      {" "}
       <BrowserRouter>
         <Routes>
-          <Route index element={<Signin />} />
-          <Route path="/home" element={<Home />} />
-
+          <Route index element={login == "true" ? <Home /> : <Signin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot/:id" element={<ForgotPassword />} />
           <Route path="/recover" element={<RecoverAccount />} />

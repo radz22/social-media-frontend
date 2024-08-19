@@ -3,8 +3,14 @@ import Footer from "../../components/footer/Mobile-Footer";
 import LeftSide from "../../components/side-bar/LeftSide";
 import percent from "../../assets/100percent.png";
 import { useState } from "react";
-
+import { useParams } from "react-router-dom";
+import GetPostById from "../../services/post/get-id-post";
+import CreatePost from "../../components/create-post/CreatePost";
+import GetProfileId from "../../services/profile/get-profile-id";
 const User = () => {
+  const { id } = useParams<{ id: string | any }>();
+  const { postProfile } = GetPostById(id);
+  const { profile } = GetProfileId(id);
   const [photo, setPhoto] = useState<any[]>([
     {
       id: 1,
@@ -25,21 +31,6 @@ const User = () => {
     },
   ]);
 
-  const [dataDashBoard, setDataDashBoard] = useState<any[]>([
-    {
-      id: 1,
-      image:
-        "https://scontent.fmnl17-3.fna.fbcdn.net/v/t39.30808-6/453773231_3739405146387963_5511635015299107138_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeES3pA4pjKFbCjin0SWPbSPzz0zBlHZIfrPPTMGUdkh-h1BU27T_WctUPNPM3BvXnYqW0Mew6A4gQrCso5F0EdF&_nc_ohc=R-P5P1wKPScQ7kNvgEDw5xe&_nc_ht=scontent.fmnl17-3.fna&oh=00_AYAQDvo_Mm2ixhSIPaqPhNLtvJyIVL3gEZPu0eERCRZW0A&oe=66BAA952",
-      name: "Radz Santillan",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus",
-      reactcount: 100,
-      postimage:
-        "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2023/07/computer-coding.jpg",
-      comments: 20,
-    },
-  ]);
-
   return (
     <div className="h-[100%] w-full bg-[#fbfcfe]">
       <div className="fixed top-0 left-0 w-full bg-white  z-50 ">
@@ -55,29 +46,27 @@ const User = () => {
             <div className="w-full relative">
               <div>
                 <img
-                  src="https://miro.medium.com/v2/resize:fit:1400/1*fHrAZJ1_L0Ff9dvVexL5_A.png"
+                  src={profile?.background}
                   className="w-full  h-60	rounded-xl	object-cover"
                 />
               </div>
               <div className="absolute bottom-[-50px] left-2 p-1 bg-[#f7f7f7] rounded-full">
                 <img
-                  src="https://scontent.fmnl17-3.fna.fbcdn.net/v/t39.30808-6/453773231_3739405146387963_5511635015299107138_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeES3pA4pjKFbCjin0SWPbSPzz0zBlHZIfrPPTMGUdkh-h1BU27T_WctUPNPM3BvXnYqW0Mew6A4gQrCso5F0EdF&_nc_ohc=R-P5P1wKPScQ7kNvgEDw5xe&_nc_ht=scontent.fmnl17-3.fna&oh=00_AYAQDvo_Mm2ixhSIPaqPhNLtvJyIVL3gEZPu0eERCRZW0A&oe=66BAA952"
+                  src={profile?.profile}
                   className="h-24	 w-24	 rounded-full"
                 />
               </div>
             </div>
 
             <div className="mt-3 ml-32  ">
-              <h1 className="  text-xl font-bold">Radz S. Santillan</h1>
+              <h1 className="  text-xl font-bold">{profile?.name}</h1>
               <p className=" text-sm font-medium text-[#adb5bd] ">
                 support@gmail.com
               </p>
             </div>
             <div className="mt-5 border-t-2 border-[#f1f1f1] ">
               <div>
-                <h1 className="text-sm font-bold mt-2  border-b-2 border-[#000] pb-3 w-fit">
-                  About
-                </h1>
+                <h1 className="text-sm font-bold mt-2  border-b-2 border-[#000] pb-3 w-fit"></h1>
               </div>
             </div>
           </div>
@@ -238,121 +227,15 @@ const User = () => {
                   ))}
                 </div>
               </div>
-              <div className="mt-8 bg-white h-auto p-4 rounded-xl 	">
-                <div className="flex items-center gap-2 ">
-                  <div className="bg-[#f5f5f5] p-2 rounded-full	 ">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="1em"
-                      height="1em"
-                      viewBox="0 0 48 48"
-                      className="text-xl text-[#1e74fd]"
-                    >
-                      <g
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-linejoin="round"
-                        stroke-width="4"
-                      >
-                        <path stroke-linecap="round" d="M7 42h36" />
-                        <path d="M11 26.72V34h7.317L39 13.308L31.695 6z" />
-                      </g>
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-[#adb5bd] text-sm">
-                      Create Post
-                    </p>
-                  </div>
-                </div>
-                <div className="relative mt-5">
-                  <div className="absolute top-0 z-20 px-2 py-2 ">
-                    <img
-                      src="https://scontent.fmnl17-3.fna.fbcdn.net/v/t39.30808-6/453773231_3739405146387963_5511635015299107138_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeES3pA4pjKFbCjin0SWPbSPzz0zBlHZIfrPPTMGUdkh-h1BU27T_WctUPNPM3BvXnYqW0Mew6A4gQrCso5F0EdF&_nc_ohc=R-P5P1wKPScQ7kNvgEDw5xe&_nc_ht=scontent.fmnl17-3.fna&oh=00_AYAQDvo_Mm2ixhSIPaqPhNLtvJyIVL3gEZPu0eERCRZW0A&oe=66BAA952"
-                      className="w-[35px] h-[35px] rounded-full"
-                    />
-                  </div>
-                  <div className="relative ">
-                    <textarea
-                      className="font-semibold w-full px-12 py-3 h-[110px]   border-2 border-[#f1f1f1]  text-[#adb5bd] rounded-2xl	 placeholder-[#adb5bd]"
-                      placeholder="What's on your mind?"
-                    ></textarea>
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center gap-5">
-                  <div className="md:flex md:items-center md:gap-2">
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 24 24"
-                        className="text-2xl text-[#10d876]"
-                      >
-                        <g
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                        >
-                          <rect
-                            width="18"
-                            height="18"
-                            x="3"
-                            y="3"
-                            rx="2"
-                            ry="2"
-                          />
-                          <circle cx="9" cy="9" r="2" />
-                          <path d="m21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                        </g>
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="md:block text-sm font-semibold text-[#495057] max-md:hidden">
-                        Photo/Video
-                      </p>
-                    </div>
-                  </div>
-                  <div className="md:flex md:items-center md:gap-2">
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 24 24"
-                        className="text-2xl text-[#fe9431]"
-                      >
-                        <g
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                        >
-                          <path d="M3 18V9a2 2 0 0 1 2-2h.93a2 2 0 0 0 1.664-.89l.812-1.22A2 2 0 0 1 10.07 4h3.86a2 2 0 0 1 1.664.89l.812 1.22A2 2 0 0 0 18.07 7H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2" />
-                          <circle cx="12" cy="13" r="3" />
-                        </g>
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="md:block text-sm font-semibold text-[#495057] max-md:hidden">
-                        Feeling/Activity
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              <CreatePost />
               <div className="mt-8 w-full ">
-                {dataDashBoard.map((item: any) => (
+                {postProfile.map((item: any) => (
                   <div className="mt-10 bg-white h-auto p-4 rounded-xl w-full	">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-5">
                         <div>
                           <img
-                            src={item.image}
+                            src={item.userphoto}
                             className="w-[45px] h-[45px] rounded-full"
                           />
                         </div>
@@ -381,16 +264,16 @@ const User = () => {
                     </div>
                     <div className="mt-2">
                       <p className="text-[#adb5bd] text-sm leading-7	">
-                        {item.content}
+                        {item.text}
                       </p>
                     </div>
 
                     <div className="mt-5 w-full">
-                      {item.postimage == "" ? (
+                      {item.photo == null ? (
                         ""
                       ) : (
                         <img
-                          src={item.postimage}
+                          src={item.photo}
                           className="w-full h-64	rounded-lg md:h-96	lg:h-72		"
                         />
                       )}
@@ -427,7 +310,7 @@ const User = () => {
                       </div>
                       <div>
                         <p className="text-[#212529] text-sm font-semibold">
-                          {item.reactcount} Heart
+                          {item.heart.toString()} Heart
                         </p>
                       </div>
                       <div>
@@ -446,7 +329,7 @@ const User = () => {
                       </div>
                       <div>
                         <p className="text-[#212529] text-sm font-semibold">
-                          {item.comments} Comment
+                          Comment
                         </p>
                       </div>
                     </div>
