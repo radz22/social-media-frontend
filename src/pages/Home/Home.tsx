@@ -4,72 +4,11 @@ import RingLoader from "react-spinners/RingLoader";
 import Footer from "../../components/footer/Mobile-Footer";
 import LeftSide from "../../components/side-bar/LeftSide";
 import RightSide from "../../components/side-bar/RightSide";
-import GetProfile from "../../services/profile/get-profile-token";
 import Post from "../../components/post/Post";
 import CreatePost from "../../components/create-post/CreatePost";
+import { Toaster } from "react-hot-toast";
+
 const Home = () => {
-  const { profile } = GetProfile();
-  const [dataDashBoard, setDataDashBoard] = useState<any[]>([
-    {
-      id: 1,
-      image:
-        "https://scontent.fmnl17-3.fna.fbcdn.net/v/t39.30808-6/453773231_3739405146387963_5511635015299107138_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeES3pA4pjKFbCjin0SWPbSPzz0zBlHZIfrPPTMGUdkh-h1BU27T_WctUPNPM3BvXnYqW0Mew6A4gQrCso5F0EdF&_nc_ohc=R-P5P1wKPScQ7kNvgEDw5xe&_nc_ht=scontent.fmnl17-3.fna&oh=00_AYAQDvo_Mm2ixhSIPaqPhNLtvJyIVL3gEZPu0eERCRZW0A&oe=66BAA952",
-      name: "Radz Santillan",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus",
-      reactcount: 100,
-      postimage:
-        "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2023/07/computer-coding.jpg",
-      comments: 20,
-    },
-
-    {
-      id: 2,
-      image: "https://uitheme.net/sociala/images/user-8.png",
-      name: "Lesly Fajardo",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus",
-      reactcount: 18,
-      postimage:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzno8Fd0Lf97f4kCdT3WvZTTNL2whc8S_wHg&s",
-      comments: 11,
-    },
-
-    {
-      id: 3,
-      image: "https://uitheme.net/sociala/images/user-12.png",
-      name: "Mohannad Zitoun ",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus",
-      reactcount: 32,
-      postimage:
-        "https://cdn.britannica.com/10/250610-050-BC5CCDAF/Zebra-finch-Taeniopygia-guttata-bird.jpg",
-      comments: 5,
-    },
-
-    {
-      id: 4,
-      image: "https://uitheme.net/sociala/images/user-7.png",
-      name: " Anthony Daugloi",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus",
-      reactcount: 50,
-      postimage:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4hmaR24UgKLCzSc48TPZD2lsQzzvDAI7R1w&s",
-      comments: 9,
-    },
-    {
-      id: 5,
-      image: "https://uitheme.net/sociala/images/pt-1.jpg",
-      name: " Surfiya Zakir",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus",
-      reactcount: 10,
-      postimage: "",
-      comments: 2,
-    },
-  ]);
-
   const [friendReq, setFriendReq] = useState<any[]>([
     {
       name: "Anthony Daugloi ",
@@ -87,6 +26,9 @@ const Home = () => {
 
   return (
     <div className="h-[100%] w-full bg-[#f7f7f7]">
+      <div>
+        <Toaster position="top-right" reverseOrder={false} />
+      </div>
       <div className="fixed top-0 left-0 w-full bg-white  z-50">
         <Header />
       </div>
@@ -96,7 +38,9 @@ const Home = () => {
         </div>
 
         <div className="pt-[10px] w-full px-5 scroll-smooth h-auto py-20 lg:w-[50%]   lg:px-1 xl:w-[55%]">
-          <CreatePost />
+          <>
+            <CreatePost />
+          </>
           <div className="mt-10 w-full ">
             <>
               <Post />

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { forgotpasswordtype } from "../../types/forgot-password-type";
 import UpdatePassword from "../../services/user/update-password";
-import { useNavigate } from "react-router-dom";
+import UseNavigate from "../../components/navigate/UseNavigate";
 const UpdatePasswordHook = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
+  const { handleNavigate } = UseNavigate();
   const handleChangePassword = async (
     password: forgotpasswordtype,
     id: string
@@ -12,7 +12,7 @@ const UpdatePasswordHook = () => {
     try {
       await UpdatePassword(password, id);
       setTimeout(() => {
-        navigate("/");
+        handleNavigate();
       }, 2000);
     } catch (err: any) {
       console.log(err.message);

@@ -1,28 +1,32 @@
 import { useEffect, useState } from "react";
 import { Post } from "../../types/post-type";
-const getPost = () => {
-  const [postData, setPostData] = useState<Post[]>([]);
+const GetPost = () => {
+  const [postData, setPostData] = useState<Post[] | null>(null);
   const [postLoading, setPostLoading] = useState<boolean>(false);
   useEffect(() => {
     const FetchPost = async () => {
       setPostLoading(true);
       try {
         const response = await fetch(`http://localhost:5000/post/get`);
-        if (!response.ok) {
-          console.log("error");
-        }
         const result: Post[] = await response.json();
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch posts");
+        }
         setPostData(result);
-      } catch {
-        console.log("catch error");
+      } catch (error) {
+        console.error("Error fetching posts:", error);
       } finally {
         setPostLoading(false);
       }
     };
+
     FetchPost();
+    const interval = setInterval(FetchPost, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   return { postData, postLoading };
 };
 
-export default getPost;
+export default GetPost;

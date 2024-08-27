@@ -1,9 +1,18 @@
+export interface comments {
+  text: string;
+  photo: string;
+  userid: string;
+  username: string;
+}
 export interface Post {
   id: string;
+  name: string;
   userid: string;
+  cloudinaryid: string;
   userphoto: string;
   text: string;
-  photo?: string;
-  heart: number;
-  comments: Comment[] | {}; // Can be an array of comments or an empty object
+  photo: string;
+  countheart: number;
+  userheart: string[];
+  comments: { [key: string]: comments };
 }

@@ -1,10 +1,6 @@
 import Header from "../../components/signin-signup-header/Header";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
 import signinbg from "../../assets/signinbg.jpg";
 import H1 from "../../components/h1/H1";
-import { signintype } from "../../types/sign-in-type";
-import SignInHook from "../../hooks/user/sign-in-hook";
 import SignIn from "../../components/sign-in-form/sign-in";
 import { Toaster } from "react-hot-toast";
 

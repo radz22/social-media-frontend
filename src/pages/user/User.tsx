@@ -4,13 +4,14 @@ import LeftSide from "../../components/side-bar/LeftSide";
 import percent from "../../assets/100percent.png";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import GetPostById from "../../services/post/get-id-post";
 import CreatePost from "../../components/create-post/CreatePost";
 import GetProfileId from "../../services/profile/get-profile-id";
+import GetAllPostUserId from "../../services/post/get-all-post-user-id-post";
 const User = () => {
   const { id } = useParams<{ id: string | any }>();
-  const { postProfile } = GetPostById(id);
+  const { postProfile } = GetAllPostUserId(id);
   const { profile } = GetProfileId(id);
+  console.log(postProfile);
   const [photo, setPhoto] = useState<any[]>([
     {
       id: 1,
@@ -30,7 +31,7 @@ const User = () => {
       image: "https://uitheme.net/sociala/images/e-5.jpg",
     },
   ]);
-
+  console.log(postProfile);
   return (
     <div className="h-[100%] w-full bg-[#fbfcfe]">
       <div className="fixed top-0 left-0 w-full bg-white  z-50 ">
@@ -263,13 +264,13 @@ const User = () => {
                       </div>
                     </div>
                     <div className="mt-2">
-                      <p className="text-[#adb5bd] text-sm leading-7	">
+                      <p className="text-black text-sm leading-7	">
                         {item.text}
                       </p>
                     </div>
 
                     <div className="mt-5 w-full">
-                      {item.photo == null ? (
+                      {item.photo == "" ? (
                         ""
                       ) : (
                         <img
@@ -310,7 +311,7 @@ const User = () => {
                       </div>
                       <div>
                         <p className="text-[#212529] text-sm font-semibold">
-                          {item.heart.toString()} Heart
+                          {item.heart} Heart
                         </p>
                       </div>
                       <div>

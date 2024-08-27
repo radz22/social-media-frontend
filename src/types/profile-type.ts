@@ -1,6 +1,7 @@
 export interface profiletype {
-  userid: string;
-  name: string;
+  id: string;
+  userid: string | undefined;
+  name: string | undefined;
   profile: string;
   background: string;
 }

@@ -9,6 +9,7 @@ import { Fragment } from "react/jsx-runtime";
 import Setting from "./pages/setting/Setting";
 import User from "./pages/user/User";
 import cookies from "./utils/cookies/cookies";
+import VerifyPage from "./pages/verify-account/verify-account";
 function App() {
   const login = cookies.get("login");
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/recover" element={<RecoverAccount />} />
           <Route path="/setting" element={<Setting />} />
           <Route path="/user/:id" element={<User />} />
+          <Route path="/verify/:id" element={<VerifyPage />} />
         </Routes>
       </BrowserRouter>
     </Fragment>
