@@ -12,6 +12,8 @@ const GetAllPostUserId = (id: string) => {
       setPostProfile(result);
     };
     fetchData();
+    const interval = setInterval(fetchData, 3000);
+    return () => clearInterval(interval);
   }, [id]);
   return { postProfile };
 };

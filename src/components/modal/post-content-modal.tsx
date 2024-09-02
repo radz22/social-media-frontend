@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { PostContentModalProps } from "../../types/postmodalprops";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -11,7 +10,11 @@ import Stack from "@mui/material/Stack";
 import { commenttype } from "../../types/comment-type";
 import CreateCommentHook from "../../hooks/comment/create-comment-hook";
 import DeleteCommentHook from "../../hooks/comment/delete-comment-hook";
-import { deletecommenttype } from "../../types/delete-comment-type";
+import PostContentModalAtom from "../../hooks/modal-atom/post-content-modal-atom-hook";
+import HeartAddHook from "../../hooks/heart/heart-add-hook";
+import HeartDeleteHook from "../../hooks/heart/heart-delete-hook";
+import { Link } from "react-router-dom";
+
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -26,22 +29,23 @@ const style = {
   borderRadius: 2,
 };
 
-const PostContentModal: React.FC<PostContentModalProps> = ({
-  id,
-  handleClose,
-  open,
-}) => {
+const PostContentModal = () => {
+  const { id, open, closeModal } = PostContentModalAtom();
   const { handleComment } = CreateCommentHook();
   const { post, loading } = GetPostById(id);
   const { profile } = GetProfile();
   const { handleDelete } = DeleteCommentHook();
+  const { handleHeart } = HeartAddHook();
+  const { handleDeleteHeart } = HeartDeleteHook();
+
   const [showPicker, setShowPicker] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
-
   const onEmojiClick = (emojiObject: EmojiClickData) => {
     setInputValue((prev) => prev + emojiObject.emoji);
   };
   const comments = post?.comments ?? {};
+  const heart = post?.userheart ?? {};
+  console.log(profile?.userid, heart);
   const handleAddComment = () => {
     const commentData: commenttype = {
       id: id,
@@ -62,11 +66,20 @@ const PostContentModal: React.FC<PostContentModalProps> = ({
     };
     handleDelete(deleteDataId);
   };
+  const isHeartedByCurrentUser = Object.values(heart).some(
+    (heart) => heart.userid == profile?.userid
+  );
+
+  const heartData = {
+    postid: post?.id,
+    userid: profile?.userid,
+  };
+
   return (
     <div>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={closeModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -87,12 +100,18 @@ const PostContentModal: React.FC<PostContentModalProps> = ({
                   </Stack>
                 </div>
               ) : (
-                <div className="w-full flex gap-2">
-                  <div className="w-[70%]">
+                <div
+                  className={`${
+                    post?.photo == "" ? "flex-col" : "flex"
+                  } w-full  gap-2`}
+                >
+                  <div
+                    className={`${post?.photo == "" ? "w-full" : "w-[70%]"}`}
+                  >
                     <div>
                       <div
-                        className="w-fit bg-[#cfcfcf] p-2 rounded-full"
-                        onClick={handleClose}
+                        className="w-fit bg-[#d1d1d1] p-2 rounded-full"
+                        onClick={closeModal}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -109,23 +128,32 @@ const PostContentModal: React.FC<PostContentModalProps> = ({
                         </svg>
                       </div>
                     </div>
-                    <div className="mt-5 flex items-center justify-center ">
+                    <div
+                      className={`${
+                        post?.photo == "" ? "hidden" : "block"
+                      } mt-5 flex items-center justify-center "`}
+                    >
                       <img src={post?.photo} className="w-[80%] h-[550px]	" />
                     </div>
                   </div>
-                  <div className="w-[30%] relative">
-                    <div className="mt-12 flex gap-2 items-center">
-                      <div>
-                        <img
-                          src={post?.userphoto}
-                          className="w-[40px] h-[40px] rounded-full"
-                        />
+                  <div
+                    className={` ${
+                      post?.photo == "" ? "w-full" : "w-[30%]"
+                    } relative`}
+                  >
+                    <Link to={`/user/${post?.userid}`} onClick={closeModal}>
+                      <div className="mt-12 flex gap-2 items-center">
+                        <div>
+                          <img
+                            src={post?.userphoto}
+                            className="w-[40px] h-[40px] rounded-full"
+                          />
+                        </div>
+                        <div>
+                          <h1 className="font-bold">{post?.name} </h1>
+                        </div>
                       </div>
-                      <div>
-                        <h1 className="font-bold">{post?.name} </h1>
-                      </div>
-                    </div>
-
+                    </Link>
                     <div className="mt-2 h-[40px] overflow-auto">
                       <h1 className="text-sm font-mono font-normal">
                         {post?.text}
@@ -134,25 +162,49 @@ const PostContentModal: React.FC<PostContentModalProps> = ({
                     <div className="border-b-[1px] border-[#dddddd] mt-2 "></div>
                     <div className="flex items-center gap-1 border-b-[1px] border-[#dddddd] py-2">
                       <div>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="1em"
-                          height="1em"
-                          viewBox="0 0 32 32"
-                          className="text-xl "
-                        >
-                          <path
-                            fill="#f8312f"
-                            d="M21.008 5.162c-2.84.509-5.011 3.905-5.011 3.905s-2.18-3.396-5.012-3.905c-7.012-1.25-9.903 4.993-8.732 9.64c1.73 6.863 10.053 13.014 12.834 14.916c.55.376 1.27.376 1.83 0c2.791-1.902 11.113-8.053 12.834-14.916c1.16-4.647-1.73-10.89-8.743-9.64"
-                          />
-                        </svg>
+                        {isHeartedByCurrentUser ? (
+                          <div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1em"
+                              height="1em"
+                              viewBox="0 0 32 32"
+                              className="text-xl cursor-pointer "
+                              onClick={() => handleDeleteHeart(heartData)}
+                            >
+                              <path
+                                fill="#f8312f"
+                                d="M21.008 5.162c-2.84.509-5.011 3.905-5.011 3.905s-2.18-3.396-5.012-3.905c-7.012-1.25-9.903 4.993-8.732 9.64c1.73 6.863 10.053 13.014 12.834 14.916c.55.376 1.27.376 1.83 0c2.791-1.902 11.113-8.053 12.834-14.916c1.16-4.647-1.73-10.89-8.743-9.64"
+                              />
+                            </svg>
+                          </div>
+                        ) : (
+                          <div>
+                            {" "}
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1em"
+                              height="1em"
+                              viewBox="0 0 24 24"
+                              className="text-xl text-[#e93838] cursor-pointer "
+                              onClick={() => handleHeart(heartData)}
+                            >
+                              <path
+                                fill="currentColor"
+                                d="m12.1 18.55l-.1.1l-.11-.1C7.14 14.24 4 11.39 4 8.5C4 6.5 5.5 5 7.5 5c1.54 0 3.04 1 3.57 2.36h1.86C13.46 6 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5c0 2.89-3.14 5.74-7.9 10.05M16.5 3c-1.74 0-3.41.81-4.5 2.08C10.91 3.81 9.24 3 7.5 3C4.42 3 2 5.41 2 8.5c0 3.77 3.4 6.86 8.55 11.53L12 21.35l1.45-1.32C18.6 15.36 22 12.27 22 8.5C22 5.41 19.58 3 16.5 3"
+                              />
+                            </svg>
+                          </div>
+                        )}
                       </div>
-                      <div>
-                        <h1 className="text-sm text-[#878787]">10</h1>
-                      </div>
+                      <div>Heart {post?.countheart}</div>
                     </div>
 
-                    <div className="mt-5 w-full h-[330px] overflow-y-auto">
+                    <div
+                      className={`${
+                        post?.photo == "" ? "h-[300px] " : "h-[330px]"
+                      } mt-5 w-full  overflow-y-auto`}
+                    >
                       <div>
                         {Object.keys(comments).length > 0 ? (
                           Object.keys(comments).map((key) => {
@@ -217,7 +269,13 @@ const PostContentModal: React.FC<PostContentModalProps> = ({
                       </div>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 w-full">
+                    <div
+                      className={`${
+                        post?.photo == ""
+                          ? "mt-3"
+                          : "bottom-0 absolute  left-0 "
+                      } w-full`}
+                    >
                       <div className="relative">
                         <div className="flex items-center gap-2">
                           <div>

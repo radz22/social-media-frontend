@@ -3,7 +3,9 @@ import GetProfile from "../../services/profile/get-profile-token";
 
 const Header = () => {
   const { profile } = GetProfile();
-
+  const handleReload = () => {
+    window.location.reload;
+  };
   return (
     <div className="w-full py-3 px-3 transition-all duration-400 ease-in lg:py-5 lg:px-5 xl:bg-transparent max-xl:bg-white ">
       <div className="w-full flex items-center justify-between">
@@ -24,7 +26,10 @@ const Header = () => {
               </svg>
             </div>
             <div>
-              <h1 className="text-2xl font-fredoka text-[#05f] font-semibold leading-5 transition-all duration-400 ease-in	lg:text-3xl">
+              <h1
+                className="text-2xl font-fredoka text-[#05f] font-semibold leading-5 transition-all duration-400 ease-in	lg:text-3xl"
+                onClick={handleReload}
+              >
                 Santy's
               </h1>
             </div>

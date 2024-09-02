@@ -4,6 +4,10 @@ export interface comments {
   userid: string;
   username: string;
 }
+
+interface useheart {
+  userid: string;
+}
 export interface Post {
   id: string;
   name: string;
@@ -13,6 +17,6 @@ export interface Post {
   text: string;
   photo: string;
   countheart: number;
-  userheart: string[];
+  userheart: { [key: string]: useheart };
   comments: { [key: string]: comments };
 }
