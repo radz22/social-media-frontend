@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+
 import GetPost from "../../services/post/get-all-post";
 import PostContentModalAtom from "../../hooks/modal-atom/post-content-modal-atom-hook";
 import PostContentModal from "../modal/post-content-modal";
@@ -7,12 +9,16 @@ import Stack from "@mui/material/Stack";
 import GetProfile from "../../services/profile/get-profile-token";
 import HeartAddHook from "../../hooks/heart/heart-add-hook";
 import HeartDeleteHook from "../../hooks/heart/heart-delete-hook";
+import DeletePostModal from "../modal/delete-post-modal";
+import DeleteModalAtom from "../../hooks/modal-atom/delete-modal-atom";
 const Post = () => {
   const { postData, postLoading } = GetPost();
   const { openModal } = PostContentModalAtom();
   const { profile } = GetProfile();
   const { handleHeart } = HeartAddHook();
   const { handleDeleteHeart } = HeartDeleteHook();
+  const { postId, handleOpen } = DeleteModalAtom();
+
   const handleAddHeart = (postid: string) => {
     const heartData = {
       userid: profile?.userid,
@@ -30,6 +36,8 @@ const Post = () => {
 
     handleDeleteHeart(heartData);
   };
+
+  console.log(profile?.userid);
   return (
     <div>
       {postLoading ? (
@@ -52,7 +60,7 @@ const Post = () => {
               (heart: any) => heart.userid == profile?.userid
             );
             return (
-              <div className="mt-10 bg-white h-auto p-4 rounded-xl w-full	">
+              <div className="mt-10 bg-white h-auto p-4 rounded-xl w-full	relative">
                 <div className="flex items-center justify-between">
                   <Link to={`/user/${item.userid}`}>
                     <div className="flex items-center gap-5">
@@ -67,23 +75,35 @@ const Post = () => {
                       </div>
                     </div>
                   </Link>
-                  <div className="bg-[#f5f5f5] p-3 rounded-full cursor-pointer">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="1em"
-                      height="1em"
-                      viewBox="0 0 24 24"
-                      className="text-2xl "
-                    >
-                      <path
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M4 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"
-                      />
-                    </svg>
+                  <div>
+                    <div>
+                      {profile?.userid == item.userid ? (
+                        <div
+                          className="bg-[#f5f5f5] p-3 rounded-full cursor-pointer"
+                          onClick={() => handleOpen(item.id, item.cloudinaryid)}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="1em"
+                            height="1em"
+                            viewBox="0 0 24 24"
+                            className="text-2xl "
+                          >
+                            <path
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M4 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"
+                            />
+                          </svg>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <div>{postId == item.id ? <DeletePostModal /> : ""}</div>
                   </div>
                 </div>
                 <div className="mt-2">
@@ -143,7 +163,7 @@ const Post = () => {
                       Heart {item.countheart}
                     </p>
                   </div>
-                  <div>
+                  <div onClick={() => openModal(item?.id)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="1em"

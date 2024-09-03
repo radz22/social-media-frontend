@@ -45,7 +45,6 @@ const PostContentModal = () => {
   };
   const comments = post?.comments ?? {};
   const heart = post?.userheart ?? {};
-  console.log(profile?.userid, heart);
   const handleAddComment = () => {
     const commentData: commenttype = {
       id: id,

@@ -1,4 +1,9 @@
+import GetUserAll from "../../services/profile/get-user-all";
+import { Link } from "react-router-dom";
+import ChatBoxModalAtom from "../../hooks/modal-atom/chat-box-modal-atom";
 const RightSide = () => {
+  const { userProfile } = GetUserAll();
+  const { handleOpen } = ChatBoxModalAtom();
   return (
     <div className="lg:block overflow-scroll h-[100vh]   fixed top-[106px]  right-0 z-30 px-2 w-[20%]   mb-10">
       <div className="mb-24">
@@ -24,59 +29,27 @@ const RightSide = () => {
             </div>
           </div>
           <div className="border-b-[1px] border-[#adb5bd ] mt-6"></div>
-          <div className="flex items-center gap-3 mt-5">
-            <div>
-              <img
-                src="https://uitheme.net/sociala/images/user-9.png"
-                className="w-[40px] h-[40px] rounded-full "
-              />
-            </div>
-            <div>
-              <p className="text-sm text-[#212529] font-semibold">
-                Goria Coast
-              </p>
-            </div>
-          </div>
 
-          <div className="flex items-center gap-3 mt-5">
-            <div>
-              <img
-                src="https://uitheme.net/sociala/images/user-11.png"
-                className="w-[40px] h-[40px] rounded-full "
-              />
-            </div>
-            <div>
-              <p className="text-sm text-[#212529] font-semibold">
-                Victor Exrixon
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 mt-5">
-            <div>
-              <img
-                src="https://uitheme.net/sociala/images/user-4.png"
-                className="w-[40px] h-[40px] rounded-full "
-              />
-            </div>
-            <div>
-              <p className="text-sm text-[#212529] font-semibold">
-                Hurin Seary
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 mt-5">
-            <div>
-              <img
-                src="https://uitheme.net/sociala/images/user-3.png"
-                className="w-[40px] h-[40px] rounded-full "
-              />
-            </div>
-            <div>
-              <p className="text-sm text-[#212529] font-semibold">
-                David Goria
-              </p>
-            </div>
+          <div>
+            {userProfile.map((user) => (
+              <div
+                className="flex items-center gap-3 mt-5"
+                onClick={handleOpen}
+              >
+                {" "}
+                <div>
+                  <img
+                    src={user.profile}
+                    className="w-[40px] h-[40px] rounded-full "
+                  />
+                </div>
+                <div>
+                  <p className="text-sm text-[#212529] font-semibold">
+                    {user.name}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
         <div className=" bg-white h-auto p-3 rounded-xl 	mt-10">

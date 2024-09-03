@@ -11,14 +11,14 @@ import PostContentModalAtom from "../../hooks/modal-atom/post-content-modal-atom
 import PostContentModal from "../../components/modal/post-content-modal";
 import HeartAddHook from "../../hooks/heart/heart-add-hook";
 import HeartDeleteHook from "../../hooks/heart/heart-delete-hook";
+import GetProfile from "../../services/profile/get-profile-token";
 const User = () => {
   const { openModal } = PostContentModalAtom();
   const { id } = useParams<{ id: string | any }>();
   const { postProfile } = GetAllPostUserId(id);
-  const { profile } = GetProfileId(id);
   const { handleHeart } = HeartAddHook();
   const { handleDeleteHeart } = HeartDeleteHook();
-  console.log(postProfile);
+  const { profile } = GetProfile();
   const [photo, setPhoto] = useState<any[]>([
     {
       id: 1,
@@ -367,7 +367,7 @@ const User = () => {
                                 />
                               </svg>
                             </div>
-                            <div>
+                            <div onClick={() => openModal(item.id)}>
                               <p className="text-[#212529] text-sm font-semibold">
                                 Comment
                               </p>
