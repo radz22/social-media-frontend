@@ -1,29 +1,23 @@
-import React from "react";
 import { profiletype } from "../../types/profile-type";
-import { useState, useEffect } from "react";
-const GetProfileId = (id: string) => {
-  const [profile, setProfile] = useState<profiletype>();
+import { useState } from "react";
+const GetProfileId = () => {
+  const [profileData, setProfileData] = useState<profiletype>();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/profile/user/${id}`
-        );
+  const handleGetProfile = async (id: string | any) => {
+    try {
+      const response = await fetch(`http://localhost:5000/profile/user/${id}`);
 
-        if (!response.ok) {
-          console.log("error");
-        }
-        const result: profiletype = await response.json();
-        setProfile(result);
-      } catch (err: any) {
-        console.log(err);
+      if (!response.ok) {
+        console.log("error");
       }
-    };
-    fetchData();
-  }, [id]);
+      const result: profiletype = await response.json();
+      setProfileData(result);
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
 
-  return { profile };
+  return { profileData, handleGetProfile };
 };
 
 export default GetProfileId;

@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-
 import GetPost from "../../services/post/get-all-post";
 import PostContentModalAtom from "../../hooks/modal-atom/post-content-modal-atom-hook";
 import PostContentModal from "../modal/post-content-modal";
@@ -37,7 +35,6 @@ const Post = () => {
     handleDeleteHeart(heartData);
   };
 
-  console.log(profile?.userid);
   return (
     <div>
       {postLoading ? (

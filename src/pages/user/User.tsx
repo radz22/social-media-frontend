@@ -2,16 +2,18 @@ import Header from "../../components/home-header/Header";
 import Footer from "../../components/footer/Mobile-Footer";
 import LeftSide from "../../components/side-bar/LeftSide";
 import percent from "../../assets/100percent.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CreatePost from "../../components/create-post/CreatePost";
-import GetProfileId from "../../services/profile/get-profile-id";
 import GetAllPostUserId from "../../services/post/get-all-post-user-id-post";
 import PostContentModalAtom from "../../hooks/modal-atom/post-content-modal-atom-hook";
 import PostContentModal from "../../components/modal/post-content-modal";
 import HeartAddHook from "../../hooks/heart/heart-add-hook";
 import HeartDeleteHook from "../../hooks/heart/heart-delete-hook";
 import GetProfile from "../../services/profile/get-profile-token";
+import DeletePostModal from "../../components/modal/delete-post-modal";
+import DeleteModalAtom from "../../hooks/modal-atom/delete-modal-atom";
+import GetProfileId from "../../services/profile/get-profile-id";
 const User = () => {
   const { openModal } = PostContentModalAtom();
   const { id } = useParams<{ id: string | any }>();
@@ -19,6 +21,8 @@ const User = () => {
   const { handleHeart } = HeartAddHook();
   const { handleDeleteHeart } = HeartDeleteHook();
   const { profile } = GetProfile();
+  const { postId, handleOpen } = DeleteModalAtom();
+  const { profileData, handleGetProfile } = GetProfileId();
   const [photo, setPhoto] = useState<any[]>([
     {
       id: 1,
@@ -56,6 +60,11 @@ const User = () => {
     handleDeleteHeart(heartData);
   };
 
+  useEffect(() => {
+    if (id) {
+      handleGetProfile(id);
+    }
+  }, []);
   return (
     <div>
       <div className="h-[100%] w-full bg-[#fbfcfe]">
@@ -72,13 +81,13 @@ const User = () => {
               <div className="w-full relative">
                 <div>
                   <img
-                    src={profile?.background}
+                    src={profileData?.background}
                     className="w-full  h-60	rounded-xl	object-cover"
                   />
                 </div>
                 <div className="absolute bottom-[-50px] left-2 p-1 bg-[#f7f7f7] rounded-full">
                   <img
-                    src={profile?.profile}
+                    src={profileData?.profile}
                     className="h-24	 w-24	 rounded-full"
                   />
                 </div>
@@ -277,23 +286,40 @@ const User = () => {
                                 <h1 className="font-semibold">{item.name}</h1>
                               </div>
                             </div>
-                            <div className="bg-[#f5f5f5] p-3 rounded-full cursor-pointer">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="1em"
-                                height="1em"
-                                viewBox="0 0 24 24"
-                                className="text-2xl "
-                              >
-                                <path
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M4 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"
-                                />
-                              </svg>
+
+                            <div>
+                              <div>
+                                {profile?.userid == item.userid ? (
+                                  <div
+                                    className="bg-[#f5f5f5] p-3 rounded-full cursor-pointer"
+                                    onClick={() =>
+                                      handleOpen(item.id, item.cloudinaryid)
+                                    }
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="1em"
+                                      height="1em"
+                                      viewBox="0 0 24 24"
+                                      className="text-2xl "
+                                    >
+                                      <path
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M4 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"
+                                      />
+                                    </svg>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                              <div>
+                                {postId == item.id ? <DeletePostModal /> : ""}
+                              </div>
                             </div>
                           </div>
                           <div className="mt-2">

@@ -1,7 +1,19 @@
-import React from "react";
 import ChatBoxModalAtom from "../../hooks/modal-atom/chat-box-modal-atom";
-const ChatBox = () => {
+import { profiletype } from "../../types/profile-type";
+import GetMessage from "../../services/message/messages";
+import { useEffect, useState } from "react";
+import GetProfile from "../../services/profile/get-profile-token";
+interface ProfileDisplayProps {
+  profileData?: profiletype;
+  roomid: string;
+}
+
+const ChatBox: React.FC<ProfileDisplayProps> = ({ profileData, roomid }) => {
+  const [input, setInput] = useState<string>("");
   const { open, handleCLose } = ChatBoxModalAtom();
+  const { profile } = GetProfile();
+  const { message, handleMessage } = GetMessage(roomid);
+
   return (
     <div>
       {open && (
@@ -10,12 +22,12 @@ const ChatBox = () => {
             <div className="flex items-center gap-3 ">
               <div>
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/800px-Unofficial_JavaScript_logo_2.svg.png"
+                  src={profileData?.profile}
                   className="w-[40px] h-[40px] rounded-full"
                 />
               </div>
               <div>
-                <h1 className="text-base font-semibold">Test</h1>
+                <h1 className="text-base font-semibold">{profileData?.name}</h1>
               </div>
             </div>
             <div>
@@ -34,19 +46,45 @@ const ChatBox = () => {
               </svg>
             </div>
           </div>
-          <div className="h-[275px] p-2 mt-1">Message</div>
+          <div className="h-[275px] p-2 mt-1 w-full overflow-auto">
+            <div>
+              {message.map((item) => (
+                <div>
+                  <div>
+                    {item.userid == profile?.userid ? (
+                      <div className="flex items-end justify-end">
+                        <div className="bg-[#05f] p-2 rounded-lg mt-5">
+                          <h1 className=" font-bold text-white">
+                            {item.message}
+                          </h1>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <div className="bg-[#eeeeee] p-2 rounded-lg w-fit mt-5">
+                          <h1 className=" font-bold">{item.message}</h1>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
           <div className="flex items-center p-2 ">
             <div className="w-full">
               <div>
                 <input
                   type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
                   className="font-semibold font-fredoka w-full py-1 p-2  bg-[#f9f9f9]  border-2 border-[#eee]  placeholder-[#7a7b7b] rounded-md	"
                   placeholder="Aa"
                 />
               </div>
             </div>
-            <div>
+            <div onClick={() => handleMessage(input)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="1em"

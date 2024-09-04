@@ -7,7 +7,6 @@ import RightSide from "../../components/side-bar/RightSide";
 import Post from "../../components/post/Post";
 import CreatePost from "../../components/create-post/CreatePost";
 import { Toaster } from "react-hot-toast";
-import ChatBox from "../../components/chatbox/chat-box";
 const Home = () => {
   const [friendReq, setFriendReq] = useState<any[]>([
     {
@@ -113,9 +112,6 @@ const Home = () => {
         <div className="fixed bottom-0 left-0 w-full   z-50 lg:hidden">
           <Footer />
         </div>
-      </div>
-      <div className="fixed bottom-0 right-64  z-50">
-        <ChatBox />
       </div>
     </div>
   );

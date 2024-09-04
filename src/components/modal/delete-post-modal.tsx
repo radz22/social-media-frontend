@@ -1,4 +1,3 @@
-import React from "react";
 import DeletePostHook from "../../hooks/post/delete-post-hook";
 import DeleteModalAtom from "../../hooks/modal-atom/delete-modal-atom";
 const DeletePostModal = () => {
@@ -12,7 +11,6 @@ const DeletePostModal = () => {
     handleDeletePost(data);
   };
 
-  console.log(postId, cloudinary);
   return (
     <div className="bg-white rounded-lg  shadow-lg shadow-[#949292] h-[150px] absolute  right-5 w-[200px] p-3 cursor-pointer">
       <div className="flex items-end  justify-end">
