@@ -3,12 +3,13 @@ import io, { Socket } from "socket.io-client";
 import GetProfile from "../profile/get-profile-token";
 import SoundEffect from "../../assets/sound.mp3";
 import { messagedata } from "../../types/message-type";
-const socket = io("http://localhost:5000");
-
-const GetMessage = (roomid: string) => {
+export const socket = io("http://localhost:5000");
+import ChatBoxModalAtom from "../../hooks/modal-atom/chat-box-modal-atom";
+const GetMessage = (roomid: string, receiverid: string | undefined) => {
   const { profile } = GetProfile();
   const [message, setMessage] = useState<messagedata[]>([]);
-  const notificationSound = new Audio(SoundEffect); // Adjust path if needed
+  const { handleGetMessageCount } = ChatBoxModalAtom();
+  const notificationSound = new Audio(SoundEffect);
 
   useEffect(() => {
     const GetMessage = async () => {
@@ -32,7 +33,6 @@ const GetMessage = (roomid: string) => {
       notificationSound.play();
     });
     socket.on("receiver", (data) => {
-      // Check if data is an array or a single message
       if (Array.isArray(data)) {
         setMessage((prevMessages) => [...prevMessages, ...data]); // Append multiple messages
       } else {
@@ -41,16 +41,23 @@ const GetMessage = (roomid: string) => {
       console.log("New message received from socket:", data);
     });
 
+    socket.on("message", (data) => {
+      handleGetMessageCount(data.messagecount, data.uniqueReceivers);
+    });
+
+    socket.on("seen", (data) => {
+      handleGetMessageCount(data.count, data.receiver);
+    });
     return () => {
       socket.off("receiver");
     };
   }, []);
-
   const handleMessage = (usermessages: string) => {
     socket.emit("sender", {
       roomid: roomid,
       userid: profile?.userid,
       message: usermessages,
+      receiver: receiverid,
     });
   };
 

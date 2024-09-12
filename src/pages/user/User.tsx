@@ -14,7 +14,9 @@ import GetProfile from "../../services/profile/get-profile-token";
 import DeletePostModal from "../../components/modal/delete-post-modal";
 import DeleteModalAtom from "../../hooks/modal-atom/delete-modal-atom";
 import GetProfileId from "../../services/profile/get-profile-id";
+import SearchBoxAtom from "../../hooks/modal-atom/search-box-atom";
 const User = () => {
+  const { handleCloseSearchBox } = SearchBoxAtom();
   const { openModal } = PostContentModalAtom();
   const { id } = useParams<{ id: string | any }>();
   const { postProfile } = GetAllPostUserId(id);
@@ -72,7 +74,10 @@ const User = () => {
           <Header />
         </div>
 
-        <div className="w-full lg:flex  lg:gap-2 h-auto  xl:gap-32">
+        <div
+          className="w-full lg:flex  lg:gap-2 h-auto  xl:gap-32"
+          onClick={handleCloseSearchBox}
+        >
           <div className="lg:w-[30%] max-lg:hidden xl:w-[20%]">
             <LeftSide />
           </div>

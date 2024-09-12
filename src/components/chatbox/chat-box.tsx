@@ -6,14 +6,18 @@ import GetProfile from "../../services/profile/get-profile-token";
 interface ProfileDisplayProps {
   profileData?: profiletype;
   roomid: string;
+  receiverid: string | undefined;
 }
 
-const ChatBox: React.FC<ProfileDisplayProps> = ({ profileData, roomid }) => {
+const ChatBox: React.FC<ProfileDisplayProps> = ({
+  profileData,
+  roomid,
+  receiverid,
+}) => {
   const [input, setInput] = useState<string>("");
   const { open, handleCLose } = ChatBoxModalAtom();
   const { profile } = GetProfile();
-  const { message, handleMessage } = GetMessage(roomid);
-
+  const { message, handleMessage } = GetMessage(roomid, receiverid);
   return (
     <div>
       {open && (

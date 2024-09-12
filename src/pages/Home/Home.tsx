@@ -7,6 +7,7 @@ import RightSide from "../../components/side-bar/RightSide";
 import Post from "../../components/post/Post";
 import CreatePost from "../../components/create-post/CreatePost";
 import { Toaster } from "react-hot-toast";
+import SearchBoxAtom from "../../hooks/modal-atom/search-box-atom";
 const Home = () => {
   const [friendReq, setFriendReq] = useState<any[]>([
     {
@@ -22,7 +23,7 @@ const Home = () => {
       image: "https://uitheme.net/sociala/images/user-12.png",
     },
   ]);
-
+  const { handleCloseSearchBox } = SearchBoxAtom();
   return (
     <div className="w-full">
       <div className="h-[100%] w-full bg-[#f7f7f7] ">
@@ -32,7 +33,10 @@ const Home = () => {
         <div className="fixed top-0 left-0 w-full bg-white  z-50">
           <Header />
         </div>
-        <div className="lg:w-full lg:flex  lg:gap-2 h-auto ">
+        <div
+          className="lg:w-full lg:flex  lg:gap-2 h-auto "
+          onClick={handleCloseSearchBox}
+        >
           <div className="lg:w-[30%] max-lg:hidden xl:w-[20%] xl:mr-10 ">
             <LeftSide />
           </div>

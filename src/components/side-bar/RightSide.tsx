@@ -4,22 +4,33 @@ import GetProfile from "../../services/profile/get-profile-token";
 import GetProfileId from "../../services/profile/get-profile-id";
 import ChatBox from "../chatbox/chat-box";
 import RoomIdHook from "../../hooks/message/room-id-hook";
-
+import { useState } from "react";
+import Online_Offline from "../../hooks/online-socket/online-offline";
+import { socket } from "../../services/message/messages";
 const RightSide = () => {
   const { userProfile } = GetUserAll();
   const { profile } = GetProfile();
-  const { handleOpen } = ChatBoxModalAtom();
+  const { handleOpen, count, receiver } = ChatBoxModalAtom();
   const { handleGetProfile, profileData } = GetProfileId();
   const { roomId, handleRoomId } = RoomIdHook();
+  const { online } = Online_Offline();
+  const [receiverId, setReceiverId] = useState<string | undefined>(undefined);
   const handleFetchOpen = (id: string | undefined) => {
+    setReceiverId(id);
     handleGetProfile(id);
     handleOpen();
-
     const messageData = {
       senderid: profile?.userid,
       receiverid: id,
     };
     handleRoomId(messageData);
+  };
+  const handleSocket = (receiverId: string | undefined) => {
+    socket.emit("seen", {
+      roomid: roomId,
+      receiver: receiverId,
+      userid: profile?.userid,
+    });
   };
 
   return (
@@ -52,24 +63,76 @@ const RightSide = () => {
             <div>
               {userProfile
                 .filter((user) => user.userid !== profile?.userid)
-                .map((user) => (
-                  <div
-                    className="flex items-center gap-3 mt-5"
-                    onClick={() => handleFetchOpen(user.userid)}
-                  >
-                    <div>
-                      <img
-                        src={user.profile}
-                        className="w-[40px] h-[40px] rounded-full "
-                      />
+                .map((user) => {
+                  const findById = online.some(
+                    (item) => item.userid == user.userid
+                  );
+                  return (
+                    <div
+                      className="flex items-center gap-3 mt-5 justify-between"
+                      onClick={() => {
+                        handleFetchOpen(user.userid);
+                        handleSocket(user.userid);
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div>
+                          <img
+                            src={user.profile}
+                            className="w-[40px] h-[40px] rounded-full "
+                          />
+                        </div>
+                        <div>
+                          <p className="text-sm text-[#212529] font-semibold">
+                            {user.name}
+                          </p>
+                        </div>
+                        <div>
+                          {user.userid == receiver ? `(${count})` : `(0)`}
+                        </div>
+                      </div>
+                      <div>
+                        {findById ? (
+                          <div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1em"
+                              height="1em"
+                              viewBox="0 0 48 48"
+                              className="text-2xl text-green-800"
+                            >
+                              <rect width="48" height="48" fill="none" />
+                              <path
+                                fill="currentColor"
+                                stroke="currentColor"
+                                stroke-width="4"
+                                d="M24 33a9 9 0 1 0 0-18a9 9 0 0 0 0 18Z"
+                              />
+                            </svg>
+                          </div>
+                        ) : (
+                          <div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1em"
+                              height="1em"
+                              viewBox="0 0 48 48"
+                              className="text-2xl text-red-800"
+                            >
+                              <rect width="48" height="48" fill="none" />
+                              <path
+                                fill="currentColor"
+                                stroke="currentColor"
+                                stroke-width="4"
+                                d="M24 33a9 9 0 1 0 0-18a9 9 0 0 0 0 18Z"
+                              />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm text-[#212529] font-semibold">
-                        {user.name}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
             </div>
           </div>
           <div className=" bg-white h-auto p-3 rounded-xl 	mt-10">
@@ -223,7 +286,11 @@ const RightSide = () => {
       </div>
 
       <div className="fixed bottom-0 right-64  z-50">
-        <ChatBox profileData={profileData} roomid={roomId} />
+        <ChatBox
+          profileData={profileData}
+          roomid={roomId}
+          receiverid={receiverId}
+        />
       </div>
     </div>
   );

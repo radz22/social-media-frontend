@@ -1,40 +1,45 @@
 import { Link } from "react-router-dom";
 import GetProfile from "../../services/profile/get-profile-token";
-
+import SearchBox from "../search/search-box";
+import { useState } from "react";
+import SearchBoxAtom from "../../hooks/modal-atom/search-box-atom";
 const Header = () => {
   const { profile } = GetProfile();
+  const { handleOpenSearchBox, handleCloseSearchBox } = SearchBoxAtom();
+  const [input, setInput] = useState<string>("");
   const handleReload = () => {
-    window.location.reload;
+    window.location.href = "/";
   };
   return (
-    <div className="w-full py-3 px-3 transition-all duration-400 ease-in lg:py-5 lg:px-5 xl:bg-transparent max-xl:bg-white ">
+    <div className="w-full py-3 px-3 transition-all duration-400 ease-in lg:py-5 lg:px-5 xl:bg-transparent max-xl:bg-white relative">
       <div className="w-full flex items-center justify-between">
-        <Link to="/">
-          <div className="flex items-center gap-1 px-2 py-1">
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="1em"
-                viewBox="0 0 32 32"
-                className="text-3xl text-[#00f518] transition-all duration-400 ease-in lg:text-4xl"
-              >
-                <path
-                  fill="currentColor"
-                  d="M27.8 27.7L17.5 3.1c-.3-.7-.9-1.1-1.6-1.1s-1.3.4-1.6 1.1L3 30h3.9l4.5-11.1l13.3 10.7c.5.4.9.6 1.4.6c1 0 1.9-.7 1.9-1.8c0-.2-.1-.4-.2-.7M15.9 7.5l6.7 16.4L12.5 16z"
-                />
-              </svg>
-            </div>
-            <div>
-              <h1
-                className="text-2xl font-fredoka text-[#05f] font-semibold leading-5 transition-all duration-400 ease-in	lg:text-3xl"
-                onClick={handleReload}
-              >
-                Santy's
-              </h1>
-            </div>
+        <div
+          className="flex items-center gap-1 px-2 py-1"
+          onClick={handleCloseSearchBox}
+        >
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1em"
+              height="1em"
+              viewBox="0 0 32 32"
+              className="text-3xl text-[#00f518] transition-all duration-400 ease-in lg:text-4xl"
+            >
+              <path
+                fill="currentColor"
+                d="M27.8 27.7L17.5 3.1c-.3-.7-.9-1.1-1.6-1.1s-1.3.4-1.6 1.1L3 30h3.9l4.5-11.1l13.3 10.7c.5.4.9.6 1.4.6c1 0 1.9-.7 1.9-1.8c0-.2-.1-.4-.2-.7M15.9 7.5l6.7 16.4L12.5 16z"
+              />
+            </svg>
           </div>
-        </Link>
+          <div>
+            <h1
+              className="text-2xl font-fredoka text-[#05f] font-semibold leading-5 transition-all duration-400 ease-in	lg:text-3xl"
+              onClick={handleReload}
+            >
+              Santy's
+            </h1>
+          </div>
+        </div>
 
         <div className="relative lg:block max-lg:hidden">
           <div className="absolute top-4 z-20 px-3  ">
@@ -54,13 +59,19 @@ const Header = () => {
           </div>
           <div className="relative">
             <input
+              onClick={handleOpenSearchBox}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
               className=" px-10 h-[48px] bg-[#eee]  border-2 border-[#eee]  placeholder-[#888] rounded-full w-[350px] font-medium	text-sm"
               placeholder="Start typing to search.."
             />
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-3 lg:gap-5">
+        <div
+          className="flex items-center justify-center gap-3 lg:gap-5"
+          onClick={handleCloseSearchBox}
+        >
           <div>
             <div className="bg-[#f5f5f5] p-3 rounded-full cursor-pointer lg:hidden">
               <svg
@@ -183,6 +194,9 @@ const Header = () => {
             </div>
           </Link>
         </div>
+      </div>
+      <div className="absolute inset-0 flex justify-center items-center top-[176px]">
+        <SearchBox input={input} />
       </div>
     </div>
   );

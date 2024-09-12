@@ -58,7 +58,6 @@ const VerifyAccount = () => {
       profile: profile,
       background: background,
     };
-
     handleCreateProfile(data);
   };
 

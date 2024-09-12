@@ -1,5 +1,6 @@
 export interface profiletype {
-  id: string;
+  toLowerCase(): unknown;
+  id?: string;
   userid: string | undefined;
   name: string | undefined;
   profile: string;
