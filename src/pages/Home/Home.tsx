@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/home-header/Header";
 import RingLoader from "react-spinners/RingLoader";
 import Footer from "../../components/footer/Mobile-Footer";
@@ -8,6 +8,8 @@ import Post from "../../components/post/Post";
 import CreatePost from "../../components/create-post/CreatePost";
 import { Toaster } from "react-hot-toast";
 import SearchBoxAtom from "../../hooks/modal-atom/search-box-atom";
+import GetProfile from "../../services/profile/get-profile-token";
+import { socket } from "../../services/message/messages";
 const Home = () => {
   const [friendReq, setFriendReq] = useState<any[]>([
     {
@@ -24,6 +26,20 @@ const Home = () => {
     },
   ]);
   const { handleCloseSearchBox } = SearchBoxAtom();
+  const { profile } = GetProfile();
+
+  useEffect(() => {
+    socket.emit("notifications", {
+      roomid: profile?.userid,
+      id: null,
+      userpostid: null,
+      postid: null,
+      commentuserid: null,
+      commentprofile: null,
+      commentname: null,
+      date: null,
+    });
+  });
   return (
     <div className="w-full">
       <div className="h-[100%] w-full bg-[#f7f7f7] ">

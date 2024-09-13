@@ -1,8 +1,5 @@
-import { useState } from "react";
-import { profiletype } from "../../types/profile-type";
 import GetUserAll from "../../services/profile/get-user-all";
 import SearchBoxAtom from "../../hooks/modal-atom/search-box-atom";
-import { Link } from "react-router-dom";
 interface searchprops {
   input: string;
 }

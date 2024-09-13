@@ -14,7 +14,8 @@ import PostContentModalAtom from "../../hooks/modal-atom/post-content-modal-atom
 import HeartAddHook from "../../hooks/heart/heart-add-hook";
 import HeartDeleteHook from "../../hooks/heart/heart-delete-hook";
 import { Link } from "react-router-dom";
-
+import NotificationSocket from "../../hooks/notification-socket/notification-socket";
+import { socket } from "../../services/message/messages";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -31,15 +32,17 @@ const style = {
 
 const PostContentModal = () => {
   const { id, open, closeModal } = PostContentModalAtom();
+  const [count, setCount] = useState<number>(0);
   const { handleComment } = CreateCommentHook();
   const { post, loading } = GetPostById(id);
   const { profile } = GetProfile();
   const { handleDelete } = DeleteCommentHook();
   const { handleHeart } = HeartAddHook();
   const { handleDeleteHeart } = HeartDeleteHook();
-
   const [showPicker, setShowPicker] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
+  const currentDate = new Date();
+  const { handleNotification } = NotificationSocket();
   const onEmojiClick = (emojiObject: EmojiClickData) => {
     setInputValue((prev) => prev + emojiObject.emoji);
   };
@@ -65,6 +68,7 @@ const PostContentModal = () => {
     };
     handleDelete(deleteDataId);
   };
+
   const isHeartedByCurrentUser = Object.values(heart).some(
     (heart) => heart.userid == profile?.userid
   );
@@ -73,7 +77,21 @@ const PostContentModal = () => {
     postid: post?.id,
     userid: profile?.userid,
   };
-
+  const handleNotificationSend = () => {
+    setCount((prev) => prev + 1);
+    const date = currentDate.toISOString().split("T")[0];
+    const data = {
+      roomid: post?.userid,
+      id: count.toString(),
+      userpostid: post?.userid,
+      postid: post?.id,
+      commentuserid: profile?.userid,
+      commentprofile: profile?.profile,
+      commentname: profile?.name,
+      date: date,
+    };
+    handleNotification(data);
+  };
   return (
     <div>
       <Modal
@@ -179,7 +197,6 @@ const PostContentModal = () => {
                           </div>
                         ) : (
                           <div>
-                            {" "}
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="1em"
@@ -312,7 +329,12 @@ const PostContentModal = () => {
                               />
                             </svg>
                           </div>
-                          <div onClick={handleAddComment}>
+                          <div
+                            onClick={() => {
+                              // handleAddComment();
+                              handleNotificationSend();
+                            }}
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="1em"

@@ -33,6 +33,7 @@ const GetPostById = (id: string | null) => {
     const interval = setInterval(fetchData, 3000);
     return () => clearInterval(interval);
   }, [id]);
+
   return { post, loading };
 };
 

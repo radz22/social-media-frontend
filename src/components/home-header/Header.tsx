@@ -1,15 +1,22 @@
 import { Link } from "react-router-dom";
 import GetProfile from "../../services/profile/get-profile-token";
 import SearchBox from "../search/search-box";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBoxAtom from "../../hooks/modal-atom/search-box-atom";
+import NotificationBox from "../notification/notification-box";
+
 const Header = () => {
   const { profile } = GetProfile();
   const { handleOpenSearchBox, handleCloseSearchBox } = SearchBoxAtom();
   const [input, setInput] = useState<string>("");
+  const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
+  const handleOpenClose = () => {
+    setNotificationOpen(!notificationOpen);
+  };
   const handleReload = () => {
     window.location.href = "/";
   };
+
   return (
     <div className="w-full py-3 px-3 transition-all duration-400 ease-in lg:py-5 lg:px-5 xl:bg-transparent max-xl:bg-white relative">
       <div className="w-full flex items-center justify-between">
@@ -42,7 +49,7 @@ const Header = () => {
         </div>
 
         <div className="relative lg:block max-lg:hidden">
-          <div className="absolute top-4 z-20 px-3  ">
+          <div className="absolute top-4 z-20 px-3  " onClick={handleOpenClose}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="1em"
@@ -68,10 +75,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div
-          className="flex items-center justify-center gap-3 lg:gap-5"
-          onClick={handleCloseSearchBox}
-        >
+        <div className="flex items-center justify-center gap-3 lg:gap-5">
           <div>
             <div className="bg-[#f5f5f5] p-3 rounded-full cursor-pointer lg:hidden">
               <svg
@@ -87,7 +91,7 @@ const Header = () => {
                 />
               </svg>
             </div>
-            <div className="max-lg:hidden">
+            <div className="max-lg:hidden" onClick={handleOpenClose}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="1em"
@@ -197,6 +201,9 @@ const Header = () => {
       </div>
       <div className="absolute inset-0 flex justify-center items-center top-[176px]">
         <SearchBox input={input} />
+      </div>
+      <div className="absolute top-20 right-32">
+        <NotificationBox open={notificationOpen} />
       </div>
     </div>
   );

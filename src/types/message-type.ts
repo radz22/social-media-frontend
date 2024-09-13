@@ -3,8 +3,8 @@ export interface messagetype {
   receiverid: string | undefined;
 }
 
-export interface messagedata{
-  id:string,
-  userid:string,
-  message:string
+export interface messagedata {
+  id: string;
+  userid: string;
+  message: string;
 }
