@@ -34,7 +34,6 @@ const Post = () => {
 
     handleDeleteHeart(heartData);
   };
-
   return (
     <div>
       {postLoading ? (

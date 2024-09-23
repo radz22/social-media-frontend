@@ -8,3 +8,13 @@ export interface notificationdata {
   commentname: string | undefined;
   date: string;
 }
+
+export interface notificationresponse {
+  id: string;
+  userpostid: string;
+  postid: string;
+  commentuserid: string;
+  commentprofile: string;
+  commentname: string;
+  date: string;
+}

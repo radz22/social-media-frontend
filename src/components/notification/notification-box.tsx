@@ -1,10 +1,11 @@
-import React from "react";
-import NotificationSocket from "../../hooks/notification-socket/notification-socket";
+import React, { useEffect } from "react";
+import { NotificationModalAtom } from "../../hooks/modal-atom/notification-modal-atom";
+
 interface notificationprops {
   open: boolean;
 }
 const NotificationBox: React.FC<notificationprops> = ({ open }) => {
-  const { notificationData } = NotificationSocket();
+  const { notificationData } = NotificationModalAtom();
   return (
     <div>
       {open && (

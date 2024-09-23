@@ -92,6 +92,7 @@ const PostContentModal = () => {
     };
     handleNotification(data);
   };
+
   return (
     <div>
       <Modal
@@ -331,7 +332,7 @@ const PostContentModal = () => {
                           </div>
                           <div
                             onClick={() => {
-                              // handleAddComment();
+                              handleAddComment();
                               handleNotificationSend();
                             }}
                           >

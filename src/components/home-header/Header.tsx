@@ -4,15 +4,18 @@ import SearchBox from "../search/search-box";
 import { useEffect, useState } from "react";
 import SearchBoxAtom from "../../hooks/modal-atom/search-box-atom";
 import NotificationBox from "../notification/notification-box";
-
+import { GetNotificationByID } from "../../services/notification/get-notification-by-id";
 const Header = () => {
   const { profile } = GetProfile();
+  const { handleGetNotification } = GetNotificationByID();
   const { handleOpenSearchBox, handleCloseSearchBox } = SearchBoxAtom();
   const [input, setInput] = useState<string>("");
   const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
   const handleOpenClose = () => {
     setNotificationOpen(!notificationOpen);
+    handleGetNotification(profile?.userid);
   };
+
   const handleReload = () => {
     window.location.href = "/";
   };
